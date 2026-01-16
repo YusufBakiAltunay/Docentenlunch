@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import TabBar from "../components/TabBar";
+import AdminAddProduct from "./AdminAddProduct.jsx";
+import ProductsScreen from "./ProductsScreen.jsx";
+
+
 
 export default function HomeTabs({ docent }) {
   const [activeTab, setActiveTab] = useState("products");
@@ -8,10 +12,10 @@ export default function HomeTabs({ docent }) {
   return (
     <View style={styles.container}>
       <View style={styles.content}>
-        {activeTab === "products" && <Text>📦 Ürünler Sayfası</Text>}
+        {activeTab === "products" && <ProductsScreen />}
         {activeTab === "cart" && <Text>🛒 Sepet Sayfası</Text>}
         {activeTab === "history" && <Text>📜 Geçmiş Sayfası</Text>}
-        {activeTab === "admin" && <Text>➕ Admin Ürün Ekle</Text>}
+        {activeTab === "admin" && <AdminAddProduct />}
       </View>
 
       <TabBar
