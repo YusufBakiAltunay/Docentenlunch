@@ -1,32 +1,24 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { View, StyleSheet } from 'react-native';
 
-import LoginScreen from './screens/LoginScreen';
-import RegisterScreen from './screens/RegisterScreen';
-import HomeScreen from './screens/HomeScreen';
-import { getDocent } from './storage/docentStorage';
+import LoginScreen from './screens/LoginScreen.jsx';
+import RegisterScreen from './screens/RegisterScreen.jsx';
+import HomeTabs from './screens/HomeTabs.jsx';
 
 export default function App() {
   const [page, setPage] = useState('login');
   const [docent, setDocent] = useState(null);
-
-  useEffect(() => {
-    const loadDocent = async () => {
-      const storedDocent = await getDocent();
-      if (storedDocent) {
-        setDocent(storedDocent);
-        setPage('home');
-      }
-    };
-    loadDocent();
-  }, []);
 
   return (
     <View style={styles.app}>
       {page === 'login' && (
         <LoginScreen
           onLogin={(d) => {
-            setDocent(d);
+            // ADMIN KONTROLÜ
+            const isAdmin =
+              d.voornaam === 'Admin' && d.achternaam === 'Admin';
+
+            setDocent({ ...d, isAdmin });
             setPage('home');
           }}
           goToRegister={() => setPage('register')}
@@ -34,21 +26,10 @@ export default function App() {
       )}
 
       {page === 'register' && (
-  <RegisterScreen
-    goToLogin={() => setPage('login')}
-  />
-)}
-
-
-      {page === 'home' && (
-        <HomeScreen
-          docent={docent}
-          onLogout={() => {
-            setDocent(null);
-            setPage('login');
-          }}
-        />
+        <RegisterScreen goToLogin={() => setPage('login')} />
       )}
+
+      {page === 'home' && <HomeTabs docent={docent} />}
     </View>
   );
 }
@@ -57,6 +38,5 @@ const styles = StyleSheet.create({
   app: {
     flex: 1,
     backgroundColor: '#fff',
-    padding: 20,
   },
 });
