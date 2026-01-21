@@ -8,7 +8,7 @@ export default function AdminAddProduct() {
 
   const handleSave = async () => {
     if (!name) {
-      alert("Ürün adı zorunlu");
+      alert("Productnaam is verplicht");
       return;
     }
 
@@ -20,33 +20,32 @@ export default function AdminAddProduct() {
 
     await addProduct(newProduct);
 
-    alert("Ürün eklendi");
+    alert("Product toegevoegd");
 
     setName("");
     setDescription("");
-    
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Yeni Ürün Ekle</Text>
+      <Text style={styles.title}>Nieuw product toevoegen</Text>
 
       <TextInput
         style={styles.input}
-        placeholder="Ürün adı *"
+        placeholder="Productnaam *"
         value={name}
         onChangeText={setName}
       />
 
       <TextInput
         style={styles.input}
-        placeholder="Ürün açıklaması (opsiyonel)"
+        placeholder="Productbeschrijving (optioneel)"
         value={description}
         onChangeText={setDescription}
       />
 
       <Pressable style={styles.button} onPress={handleSave}>
-        <Text style={styles.buttonText}>Kaydet</Text>
+        <Text style={styles.buttonText}>Opslaan</Text>
       </Pressable>
     </View>
   );

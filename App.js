@@ -14,7 +14,7 @@ export default function App() {
       {page === 'login' && (
         <LoginScreen
           onLogin={(d) => {
-            // ADMIN KONTROLÜ
+            
             const isAdmin =
               d.voornaam === 'Admin' && d.achternaam === 'Admin';
 

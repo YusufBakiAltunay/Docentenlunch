@@ -7,19 +7,19 @@ export default function TabBar({ activeTab, setActiveTab, isAdmin }) {
         <Text
           style={activeTab === "products" ? styles.active : styles.inactive}
         >
-          Ürünler
+          Producten
         </Text>
       </Pressable>
 
       <Pressable onPress={() => setActiveTab("cart")}>
         <Text style={activeTab === "cart" ? styles.active : styles.inactive}>
-          🛒
+          Winkelmand
         </Text>
       </Pressable>
 
       <Pressable onPress={() => setActiveTab("history")}>
         <Text style={activeTab === "history" ? styles.active : styles.inactive}>
-          Geçmiş
+          Geschiedenis
         </Text>
       </Pressable>
 
@@ -38,9 +38,10 @@ const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-around",
-    paddingVertical: 15,
+    paddingVertical: 20,
     borderTopWidth: 1,
     borderColor: "#ddd",
+    padding:20,
   },
   active: {
     color: "#2563eb",

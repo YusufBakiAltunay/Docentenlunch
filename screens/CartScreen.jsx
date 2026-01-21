@@ -1,17 +1,27 @@
 import { View, Text, Pressable, StyleSheet } from "react-native";
+import { addOrder } from "../storage/orderStorage";
 
 export default function CartScreen({ cart, setCart, setActiveTab }) {
-  const completeOrder = () => {
-    setCart([]); 
-    setActiveTab("tikkie"); 
-  };
+  const completeOrder = async () => {
+    const newOrder = {
+      id: Date.now(),
+      items: cart,
+      date: new Date().toLocaleString(),
+    };
 
+    await addOrder(newOrder);
+
+    setCart([]);
+    setActiveTab("tikkie");
+  };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sepetim</Text>
+      <Text style={styles.title}>Mijn winkelwagen</Text>
 
-      {cart.length === 0 && <Text style={styles.empty}>Sepet boş</Text>}
+      {cart.length === 0 && (
+        <Text style={styles.empty}>De winkelwagen is leeg</Text>
+      )}
 
       {cart.map((item, index) => (
         <Text key={index} style={styles.item}>
@@ -21,7 +31,7 @@ export default function CartScreen({ cart, setCart, setActiveTab }) {
 
       {cart.length > 0 && (
         <Pressable style={styles.button} onPress={completeOrder}>
-          <Text style={styles.buttonText}>Siparişi Tamamla</Text>
+          <Text style={styles.buttonText}>Bestelling afronden</Text>
         </Pressable>
       )}
     </View>
@@ -31,11 +41,11 @@ export default function CartScreen({ cart, setCart, setActiveTab }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    height:'100%',
-    width:"100%",
+    height: "100%",
+    width: "100%",
     padding: 20,
     backgroundColor: "#f9fafb",
-    justifyContent:"center",
+    justifyContent: "center",
   },
 
   title: {

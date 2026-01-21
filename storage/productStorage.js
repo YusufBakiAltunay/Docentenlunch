@@ -12,3 +12,9 @@ export const addProduct = async (product) => {
   products.push(product);
   await AsyncStorage.setItem(KEY, JSON.stringify(products));
 };
+
+export const deleteProduct = async (productId) => {
+  const products = await getProducts(); 
+  const filtered = products.filter((p) => p.id !== productId); 
+  await AsyncStorage.setItem("products", JSON.stringify(filtered)); 
+};
