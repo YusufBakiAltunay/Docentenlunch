@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { View, Text, Pressable, StyleSheet } from "react-native";
 import { getProducts } from "../storage/productStorage";
+import { Alert } from "react-native";
 
-export default function ProductsScreen() {
+
+export default function ProductsScreen({ cart, setCart }) {
   const [products, setProducts] = useState([]);
-  const [cart, setCart] = useState([]);
 
   useEffect(() => {
     loadProducts();
@@ -16,37 +17,35 @@ export default function ProductsScreen() {
   };
 
   const addToCart = (product) => {
-    setCart((prev) => [...prev, product]);
+    setCart([...cart, product]);
+    Alert.alert("Sepete eklendi", product.name);
   };
 
+
   const removeFromCart = (productId) => {
-    setCart((prev) => prev.filter((p) => p.id !== productId));
+    setCart(cart.filter((p) => p.id !== productId));
+    Alert.alert("Sepetten çıkarıldı");
   };
+
 
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Tüm Ürünler</Text>
 
-      {products.length === 0 && (
-        <Text style={styles.empty}>Henüz ürün yok</Text>
-      )}
-
       {products.map((product) => (
         <View key={product.id} style={styles.product}>
           <View>
             <Text style={styles.name}>{product.name}</Text>
-            {product.description ? (
-              <Text style={styles.desc}>{product.description}</Text>
-            ) : null}
+            <Text style={styles.desc}>{product.description}</Text>
           </View>
 
           <View style={styles.buttons}>
             <Pressable onPress={() => addToCart(product)}>
-              <Text style={styles.plus}>➕</Text>
+              <Text style={styles.icon}>➕</Text>
             </Pressable>
 
             <Pressable onPress={() => removeFromCart(product.id)}>
-              <Text style={styles.minus}>➖</Text>
+              <Text style={styles.icon}>➖</Text>
             </Pressable>
           </View>
         </View>
@@ -73,12 +72,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     marginBottom: 15,
-    justifyContent:"space-between",
-    borderBottomWidth:1/2,
+    justifyContent: "space-between",
+    borderBottomWidth: 1 / 2,
   },
   buttons: {
     marginRight: 10,
-    paddingLeft:250,
+    paddingLeft: 250,
   },
   plus: {
     fontSize: 20,
