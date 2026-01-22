@@ -135,7 +135,6 @@ const styles = StyleSheet.create({
     width: "100%",
     padding: 20,
     backgroundColor: "#f9fafb",
-    marginTop: 50,
   },
 
   title: {

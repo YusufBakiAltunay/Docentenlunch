@@ -38,10 +38,11 @@ export default function AdminAddProduct() {
       />
 
       <TextInput
-        style={styles.input}
+        style={styles.noteInput}
         placeholder="Productbeschrijving (optioneel)"
         value={description}
         onChangeText={setDescription}
+        multiline
       />
 
       <Pressable style={styles.button} onPress={handleSave}>
@@ -56,6 +57,8 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: "center",
+    width: "100%",
+    backgroundColor: "#f9fafb",
   },
   title: {
     fontSize: 22,
@@ -69,6 +72,7 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     marginBottom: 12,
+    backgroundColor: "#fff",
   },
   button: {
     backgroundColor: "#2563eb",
@@ -80,5 +84,14 @@ const styles = StyleSheet.create({
     color: "#fff",
     textAlign: "center",
     fontWeight: "bold",
+  },
+  noteInput: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 12,
+    minHeight: 80,
+    textAlignVertical: "top",
+    borderWidth: 1,
+    borderColor: "#e5e7eb",
   },
 });

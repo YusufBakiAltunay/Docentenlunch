@@ -1,23 +1,38 @@
-import { View, Text, Pressable, StyleSheet } from "react-native";
+import { View, Text, Pressable, StyleSheet, TextInput } from "react-native";
 import { addOrder } from "../storage/orderStorage";
+import { useState } from "react";
 
-export default function CartScreen({ cart, setCart, setActiveTab }) {
+
+export default function CartScreen({ cart, setCart, setActiveTab, docent }) {
+    const [note, setNote] = useState("");
   const completeOrder = async () => {
+    const now = new Date();
+    const hour = now.getHours();
+    const minute = now.getMinutes();
+
+   
+    if (hour > 23 || (hour === 23 && minute >= 30)) {
+      alert("Je kunt alleen vóór 11:30 bestellen.");
+      return;
+    }
     const newOrder = {
       id: Date.now(),
       items: cart,
+      note: note,
+      user: `${docent.voornaam} ${docent.tussenvoegsel} ${docent.achternaam}`,
       date: new Date().toLocaleString(),
     };
 
     await addOrder(newOrder);
 
     setCart([]);
+    setNote("");
     setActiveTab("tikkie");
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Mijn winkelwagen</Text>
+      <Text style={styles.title}>🛒 Mijn winkelwagen</Text>
 
       {cart.length === 0 && (
         <Text style={styles.empty}>De winkelwagen is leeg</Text>
@@ -28,6 +43,20 @@ export default function CartScreen({ cart, setCart, setActiveTab }) {
           • {item.name}
         </Text>
       ))}
+
+      {cart.length > 0 && (
+        <>
+          <Text style={styles.noteLabel}>Extra wensen / opmerkingen</Text>
+
+          <TextInput
+            style={styles.noteInput}
+            placeholder="Bijv. zonder saus, allergie, iets anders..."
+            value={note}
+            onChangeText={setNote}
+            multiline
+          />
+        </>
+      )}
 
       {cart.length > 0 && (
         <Pressable style={styles.button} onPress={completeOrder}>
@@ -90,5 +119,22 @@ const styles = StyleSheet.create({
     textAlign: "center",
     fontSize: 16,
     fontWeight: "bold",
+  },
+
+  noteLabel: {
+    marginTop: 20,
+    marginBottom: 6,
+    fontSize: 14,
+    fontWeight: "600",
+  },
+
+  noteInput: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 12,
+    minHeight: 80,
+    textAlignVertical: "top",
+    borderWidth: 1,
+    borderColor: "#e5e7eb",
   },
 });

@@ -8,7 +8,6 @@ import {
   Alert,
 } from "react-native";
 import { getOrders, deleteOrder } from "../storage/orderStorage";
-import { SafeAreaView } from "react-native-safe-area-context";
 
 
 export default function OrderHistoryScreen({ docent }) {
@@ -45,6 +44,8 @@ export default function OrderHistoryScreen({ docent }) {
 
   const renderOrder = ({ item }) => (
     <View style={styles.orderBox}>
+      <Text style={styles.user}>👤 {item.user}</Text>
+
       <Text style={styles.date}>{item.date}</Text>
 
       {item.items.map((product, index) => (
@@ -53,7 +54,8 @@ export default function OrderHistoryScreen({ docent }) {
         </Text>
       ))}
 
-      
+      {item.note ? <Text style={styles.note}>📝 Notitie: {item.note}</Text> : null}
+
       {docent &&
         docent.voornaam.toLowerCase() === "admin" &&
         docent.achternaam.toLowerCase() === "admin" && (
@@ -68,7 +70,7 @@ export default function OrderHistoryScreen({ docent }) {
   );
 
   return (
-    <SafeAreaView style={{ flex: 1, backgroundColor: "#f9fafb" }}>
+    
       <View style={styles.container}>
         <Text style={styles.title}>📜 Bestelgeschiedenis</Text>
 
@@ -83,7 +85,7 @@ export default function OrderHistoryScreen({ docent }) {
           />
         )}
       </View>
-    </SafeAreaView>
+    
   );
 }
 
@@ -96,7 +98,6 @@ const styles = StyleSheet.create({
   },
 
   title: {
-    padding: 30,
     fontSize: 24,
     fontWeight: "bold",
     marginBottom: 20,
@@ -144,5 +145,16 @@ const styles = StyleSheet.create({
   deleteText: {
     fontSize: 18,
     color: "#fff",
+  },
+
+  note: {
+    marginTop: 8,
+    fontStyle: "italic",
+    color: "#374151",
+  },
+  user: {
+    fontWeight: "bold",
+    marginBottom: 4,
+    color: "#111827",
   },
 });

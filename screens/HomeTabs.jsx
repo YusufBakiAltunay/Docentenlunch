@@ -1,17 +1,30 @@
 import { useState } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, Pressable, SafeAreaView } from "react-native";
 import TabBar from "../components/TabBar";
 import AdminAddProduct from "./AdminAddProduct.jsx";
 import ProductsScreen from "./ProductsScreen.jsx";
 import CartScreen from "./CartScreen.jsx";
 import OrderHistoryScreen from "./OrderHistoryScreen.jsx";
+import QuickProductsScreen from "./QuickProductsScreen.jsx";
 
-export default function HomeTabs({ docent }) {
+export default function HomeTabs({ docent, onLogout }) {
   const [activeTab, setActiveTab] = useState("products");
   const [cart, setCart] = useState([]);
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.safeArea}>
+      
+      <View style={styles.header}>
+        <Text style={styles.welcome}>
+          Welkom, {docent.voornaam} {docent.tussenvoegsel} {docent.achternaam}
+        </Text>
+
+        <Pressable style={styles.logoutButton} onPress={onLogout}>
+          <Text style={styles.logoutText}>Uitloggen</Text>
+        </Pressable>
+      </View>
+
+      
       <View style={styles.content}>
         {activeTab === "products" && (
           <ProductsScreen docent={docent} cart={cart} setCart={setCart} />
@@ -22,10 +35,11 @@ export default function HomeTabs({ docent }) {
             cart={cart}
             setCart={setCart}
             setActiveTab={setActiveTab}
+            docent={docent}
           />
         )}
 
-        {activeTab === "history" && <Text>📜 Bestelgeschiedenis</Text>}
+        {activeTab === "history" && <OrderHistoryScreen docent={docent} />}
 
         {activeTab === "admin" && (
           <AdminAddProduct setActiveTab={setActiveTab} />
@@ -39,22 +53,52 @@ export default function HomeTabs({ docent }) {
           </View>
         )}
 
-        {activeTab === "history" && <OrderHistoryScreen docent={docent} />}
+        {activeTab === "quick" && (
+          <QuickProductsScreen cart={cart} setCart={setCart} />
+        )}
       </View>
 
+      
       <TabBar
         activeTab={activeTab}
         setActiveTab={setActiveTab}
         isAdmin={docent.isAdmin}
       />
-    </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  safeArea: {
     flex: 1,
+    backgroundColor: "#fff",
   },
+
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    padding: 16,
+    backgroundColor: "#f9fafb",
+  },
+
+  welcome: {
+    fontSize: 18,
+    fontWeight: "bold",
+  },
+
+  logoutButton: {
+    backgroundColor: "#f87171",
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+  },
+
+  logoutText: {
+    color: "#fff",
+    fontWeight: "bold",
+  },
+
   content: {
     flex: 1,
     justifyContent: "center",
