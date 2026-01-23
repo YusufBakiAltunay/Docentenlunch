@@ -11,7 +11,7 @@ export default function CartScreen({ cart, setCart, setActiveTab, docent }) {
     const minute = now.getMinutes();
 
    
-    if (hour > 23 || (hour === 23 && minute >= 30)) {
+    if (hour > 11 || (hour === 11 && minute >= 30)) {
       alert("Je kunt alleen vóór 11:30 bestellen.");
       return;
     }
